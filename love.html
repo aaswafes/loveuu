@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For You, My Love 💕</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Nunito:wght@300;400;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:      #ff6b8a;
+      --pink-soft: #ffb3c6;
+      --pink-pale: #fff0f3;
+      --pink-light:#ffd6e0;
+      --red:       #e63955;
+      --white:     #ffffff;
+      --text:      #5a2a3a;
+      --text-soft: #a0607a;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--pink-pale);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─────────────── FALLING HEARTS CANVAS ─────────────── */
+    #heartCanvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─────────────── HERO ─────────────── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 1.5rem 5rem;
+      background: linear-gradient(160deg, #ffe4ec 0%, #ffc2d4 50%, #ffb3c6 100%);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* wavy bottom edge */
+    #hero::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      height: 80px;
+      background: var(--pink-pale);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .big-heart {
+      font-size: clamp(4rem, 12vw, 8rem);
+      line-height: 1;
+      animation: heartbeat 1.4s ease infinite;
+      display: block;
+      margin-bottom: 1rem;
+      filter: drop-shadow(0 4px 16px rgba(230,57,85,0.35));
+    }
+
+    .hero-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(3rem, 10vw, 6.5rem);
+      color: var(--red);
+      line-height: 1.1;
+      text-shadow: 0 2px 12px rgba(230,57,85,0.2);
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--text-soft);
+      margin-top: 1rem;
+      font-weight: 300;
+    }
+
+    .hero-hearts-row {
+      margin-top: 1.8rem;
+      font-size: 1.6rem;
+      letter-spacing: 0.5rem;
+      animation: fadeIn 1.5s 1.2s both;
+    }
+
+    .scroll-down {
+      position: absolute;
+      bottom: 5.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1.8rem;
+      animation: bounce 1.6s ease infinite;
+      cursor: pointer;
+      z-index: 2;
+    }
+
+    /* ─────────────── SECTION WRAPPER ─────────────── */
+    .section-wrap {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .section-icon {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+
+    .section-sub {
+      font-size: 0.95rem;
+      color: var(--text-soft);
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    /* ─────────────── WAVY DIVIDER ─────────────── */
+    .wavy {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--pink);
+      letter-spacing: 0.3rem;
+      margin: 0 auto 2.5rem;
+      opacity: 0.6;
+    }
+
+    /* ─────────────── LETTER ─────────────── */
+    .letter-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 2.8rem clamp(1.5rem, 5vw, 3.5rem);
+      box-shadow: 0 8px 40px rgba(255,107,138,0.18);
+      text-align: left;
+      line-height: 1.9;
+      font-size: 1.05rem;
+      color: var(--text);
+      position: relative;
+      border: 2px dashed var(--pink-soft);
+    }
+
+    .letter-card::before {
+      content: '💌';
+      position: absolute;
+      top: -1.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      background: var(--pink-pale);
+      padding: 0 0.6rem;
+    }
+
+    .letter-card p + p { margin-top: 1em; }
+
+    .letter-sig {
+      margin-top: 1.8rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.6rem;
+      color: var(--red);
+      text-align: right;
+    }
+
+    /* ─────────────── STRIPE BG ─────────────── */
+    .stripe-bg {
+      background: linear-gradient(160deg, #ffe4ec 0%, #fff0f3 100%);
+    }
+
+    /* ─────────────── COUNTERS ─────────────── */
+    .counters-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.4rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .counter-box {
+      background: var(--white);
+      border-radius: 22px;
+      padding: 1.8rem 2.2rem;
+      box-shadow: 0 6px 28px rgba(255,107,138,0.18);
+      text-align: center;
+      flex: 1 1 220px;
+      max-width: 300px;
+      border-top: 5px solid var(--pink);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .counter-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,179,198,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .counter-icon { font-size: 2rem; display: block; margin-bottom: 0.4rem; }
+
+    .counter-number {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3.8rem;
+      color: var(--red);
+      line-height: 1;
+      display: block;
+    }
+
+    .counter-unit {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--pink);
+      margin-top: 0.2rem;
+      display: block;
+    }
+
+    .counter-label {
+      font-size: 0.88rem;
+      color: var(--text-soft);
+      margin-top: 0.6rem;
+      line-height: 1.4;
+    }
+
+    /* ─────────────── MELODY ─────────────── */
+    .player-wrap { max-width: 420px; margin: 0 auto 2rem; }
+
+    .vinyl-big {
+      width: 190px; height: 190px;
+      border-radius: 50%;
+      margin: 0 auto 1.6rem;
+      position: relative;
+      background: conic-gradient(
+        #1a0010 0deg,   #e63955 35deg,  #ff6b8a 70deg,
+        #1a0010 105deg, #e63955 140deg, #ff6b8a 175deg,
+        #1a0010 210deg, #e63955 245deg, #ff6b8a 280deg,
+        #1a0010 315deg, #e63955 350deg, #1a0010 360deg
+      );
+      box-shadow: 0 8px 36px rgba(230,57,85,0.3);
+    }
+    .vinyl-big::before {
+      content: '';
+      position: absolute;
+      inset: 14px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #2a0018 0deg, #c42f48 60deg, #ff8fa3 120deg,
+        #2a0018 180deg, #c42f48 240deg, #ff8fa3 300deg, #2a0018 360deg
+      );
+    }
+    .vinyl-big::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px; height: 50px;
+      background: radial-gradient(circle, #fff8f0 40%, #ffd6e0 100%);
+      border-radius: 50%;
+      border: 3px solid var(--pink-soft);
+      z-index: 1;
+    }
+    .vinyl-big.spinning { animation: spin 3s linear infinite; box-shadow: 0 10px 48px rgba(230,57,85,0.5); }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .now-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.75rem; color: var(--red); margin-bottom: 0.1rem;
+    }
+    .now-artist { font-size: 0.85rem; color: var(--text-soft); margin-bottom: 1.3rem; }
+
+    .prog-bar {
+      width: 100%; height: 5px;
+      background: var(--pink-light);
+      border-radius: 10px; margin-bottom: 0.3rem;
+      cursor: pointer; overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--red), var(--pink));
+      border-radius: 10px; transition: width 0.4s linear;
+    }
+    .prog-times {
+      display: flex; justify-content: space-between;
+      font-size: 0.72rem; color: var(--text-soft); margin-bottom: 1.4rem;
+    }
+
+    .controls { display: flex; align-items: center; justify-content: center; gap: 1.6rem; margin-bottom: 2rem; }
+    .ctrl {
+      background: none; border: none; font-size: 1.5rem;
+      cursor: pointer; color: var(--text-soft);
+      transition: transform 0.15s, color 0.15s; padding: 0; line-height: 1;
+    }
+    .ctrl:hover { transform: scale(1.2); color: var(--red); }
+    .play-pause {
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--pink));
+      border: none; color: white; font-size: 1.3rem; cursor: pointer;
+      box-shadow: 0 6px 22px rgba(230,57,85,0.4);
+      transition: transform 0.15s, box-shadow 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .play-pause:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(230,57,85,0.55); }
+
+    .song-list { display: flex; flex-direction: column; gap: 0.7rem; max-width: 420px; margin: 0 auto; }
+    .song-row {
+      background: var(--white); border-radius: 14px;
+      padding: 0.85rem 1.2rem; display: flex; align-items: center; gap: 0.9rem;
+      box-shadow: 0 3px 14px rgba(255,107,138,0.1); cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent;
+    }
+    .song-row:hover { transform: translateX(4px); box-shadow: 0 6px 20px rgba(255,107,138,0.2); }
+    .song-row.active { border-color: var(--pink); background: #fff5f7; }
+    .song-row-num { font-size: 0.8rem; color: var(--pink-soft); width: 18px; text-align: center; flex-shrink: 0; }
+    .song-row.active .song-row-num { color: var(--red); font-weight: 700; }
+    .song-row-info { flex: 1; text-align: left; }
+    .song-row-name { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .song-row-artist { font-size: 0.76rem; color: var(--text-soft); margin-top: 0.1rem; }
+    .song-row-heart { font-size: 0.9rem; color: var(--pink-soft); }
+    .song-row.active .song-row-heart { color: var(--red); animation: heartbeat 1.4s infinite; }
+
+    /* ─────────────── TIMELINE ─────────────── */
+    .timeline {
+      position: relative;
+      text-align: left;
+      padding-left: 2.8rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      width: 3px;
+      background: repeating-linear-gradient(
+        to bottom,
+        var(--pink) 0px,
+        var(--pink) 10px,
+        transparent 10px,
+        transparent 18px
+      );
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.4rem;
+      opacity: 0;
+      transform: translateX(18px);
+      transition: opacity 0.55s, transform 0.55s;
+    }
+    .timeline-item.visible { opacity: 1; transform: none; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -2.6rem;
+      top: 0.2rem;
+      font-size: 1.3rem;
+    }
+
+    .timeline-date {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--pink);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-event {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.4rem;
+      color: var(--red);
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* ─────────────── CLICK-ME HEART ─────────────── */
+    #heart-section {
+      padding: 4rem 1.5rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .click-heart-wrap { position: relative; display: inline-block; }
+
+    .click-heart {
+      font-size: 6rem;
+      cursor: pointer;
+      display: inline-block;
+      animation: heartbeat 1.4s ease infinite;
+      transition: filter 0.2s;
+      user-select: none;
+      filter: drop-shadow(0 4px 20px rgba(230,57,85,0.4));
+    }
+    .click-heart:active { filter: brightness(0.85) drop-shadow(0 2px 6px rgba(230,57,85,0.5)); }
+
+    .click-label {
+      display: block;
+      margin-top: 0.8rem;
+      font-size: 0.85rem;
+      color: var(--text-soft);
+      letter-spacing: 0.05em;
+    }
+
+    .click-message {
+      display: none;
+      margin-top: 1.4rem;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 1.2rem 2rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem;
+      color: var(--red);
+      box-shadow: 0 6px 24px rgba(255,107,138,0.2);
+      animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    }
+    .click-message.show { display: block; }
+
+    /* ─────────────── PROMISES ─────────────── */
+    .promise-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .promise-list li {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 1rem 1.4rem 1rem 3.2rem;
+      font-size: 0.97rem;
+      color: var(--text);
+      line-height: 1.6;
+      box-shadow: 0 3px 14px rgba(255,107,138,0.1);
+      text-align: left;
+      position: relative;
+      transition: transform 0.2s;
+    }
+    .promise-list li:hover { transform: translateX(4px); }
+    .promise-list li::before {
+      content: '♥';
+      position: absolute;
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--pink);
+      font-size: 1rem;
+    }
+
+    /* ─────────────── WILL U BE MINE ─────────────── */
+    .wubm-wrap {
+      text-align: center;
+      padding: 5rem 1.5rem 8rem;
+      position: static;
+      z-index: 1;
+    }
+    .wubm-question {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2.8rem, 9vw, 5.5rem);
+      color: var(--red);
+      line-height: 1.1;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 2px 16px rgba(230,57,85,0.2);
+    }
+    .wubm-always {
+      font-size: 0.9rem;
+      color: var(--pink);
+      letter-spacing: 0.25em;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+    .wubm-btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.4rem;
+      position: relative;
+      min-height: 70px;
+    }
+    .wubm-yes {
+      background: linear-gradient(135deg, var(--red), var(--pink));
+      color: white;
+      border: none;
+      padding: 0.9rem 2.4rem;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-family: 'Dancing Script', cursive;
+      cursor: pointer;
+      box-shadow: 0 6px 22px rgba(230,57,85,0.35);
+      transition: transform 0.15s, box-shadow 0.15s;
+      position: relative;
+      z-index: 2;
+    }
+    .wubm-yes:hover { transform: scale(1.08); box-shadow: 0 8px 30px rgba(230,57,85,0.5); }
+    .wubm-no {
+      background: #f0f0f0;
+      color: #999;
+      border: 2px solid #ccc;
+      padding: 0.9rem 2.4rem;
+      border-radius: 50px;
+      font-size: 1.2rem;
+      font-family: 'Dancing Script', cursive;
+      cursor: pointer;
+      position: fixed;
+      z-index: 9999;
+      white-space: nowrap;
+      pointer-events: all;
+      transition: none;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    .wubm-popup {
+      display: none;
+      margin-top: 1.8rem;
+      background: var(--white);
+      border-radius: 20px;
+      padding: 1.2rem 2rem;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.6rem;
+      color: var(--red);
+      box-shadow: 0 6px 28px rgba(255,107,138,0.25);
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .wubm-popup.show { display: block; animation: popIn 0.4s cubic-bezier(0.175,0.885,0.32,1.275); }
+
+    /* ─────────────── FINAL SIGN-OFF ─────────────── */
+    .signoff {
+      text-align: center;
+      padding: 4rem 1.5rem 6rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signoff-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      color: var(--red);
+      line-height: 1.4;
+    }
+
+    .signoff-hearts {
+      font-size: 2.5rem;
+      margin-top: 1rem;
+      display: block;
+      animation: wiggle 2s ease infinite;
+    }
+
+    /* ─────────────── FOOTER ─────────────── */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.82rem;
+      color: var(--pink-soft);
+      background: linear-gradient(to right, #ffe4ec, #ffc2d4, #ffe4ec);
+    }
+
+    /* ─────────────── KEYFRAMES ─────────────── */
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      15%      { transform: scale(1.22); }
+      30%      { transform: scale(1); }
+      45%      { transform: scale(1.14); }
+      60%      { transform: scale(1); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(8px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(0deg); }
+      20%      { transform: rotate(-8deg); }
+      40%      { transform: rotate(8deg); }
+      60%      { transform: rotate(-4deg); }
+      80%      { transform: rotate(4deg); }
+    }
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-120px) scale(0.4); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Falling hearts behind everything -->
+<canvas id="heartCanvas"></canvas>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <span class="big-heart">❤️</span>
+  <h1 class="hero-title">For You, My Love</h1>
+  <p class="hero-sub">This little page is made with my whole heart, just for you 💕</p>
+  <div class="hero-hearts-row">🌸 💗 🌸 💗 🌸</div>
+  <div class="scroll-down" onclick="document.getElementById('letter-section').scrollIntoView({behavior:'smooth'})">👇</div>
+</section>
+
+<!-- ─── LETTER ─── -->
+<div id="letter-section" class="section-wrap">
+  <span class="section-icon">💌</span>
+  <h2 class="section-title">A Letter From My Heart</h2>
+  <p class="section-sub">some things I've been meaning to say</p>
+  <div class="wavy">~ ~ ~ ~ ~</div>
+
+  <div class="letter-card">
+    <p>
+      Hello, Dear. Shahina — the one that somehow makes every single day brighter just by being in it.
+      I made this for you because I want to make you even a bit happier, and to show the love for you that I have.
+    </p>
+    <p>
+      I love when you do that smile emoji. I love your voice that always echoes in my mind.
+      I love your smile that is always in my mind. I love your personality that is always shiny.
+      I love your looks that are just gorgeous. I love your kindness.
+      I love everything of you, and certainly love you.
+    </p>
+    <p>
+      You made life feel colourful. You made Humoyun happy. I really mean that.
+    </p>
+    <p>
+      Thank you for being with me. Thank you for being you.
+      I love you more than this little website could ever say. 💗
+    </p>
+    <div class="letter-sig">— Always & forever yours, Humoyun ❤️</div>
+  </div>
+</div>
+
+<!-- ─── COUNTERS ─── -->
+<div class="stripe-bg">
+  <div class="section-wrap">
+    <span class="section-icon">🗓️</span>
+    <h2 class="section-title">Our Numbers</h2>
+    <p class="section-sub">some very important statistics 💕</p>
+    <div class="wavy">♥ ♥ ♥ ♥ ♥</div>
+
+    <div class="counters-row">
+      <!-- Days together -->
+      <div class="counter-box">
+        <span class="counter-icon">❤️</span>
+        <span class="counter-number" id="daysTogether">0</span>
+        <span class="counter-unit">days together</span>
+        <p class="counter-label">Since November 1st, 2025 —<br/>every single one of them a gift.</p>
+      </div>
+
+      <!-- Countdown -->
+      <div class="counter-box">
+        <span class="counter-icon">✨</span>
+        <span class="counter-number" id="daysUntil">0</span>
+        <span class="counter-unit">days to go</span>
+        <p class="counter-label">Until March 3rd, 2033 —<br/>our special day on the horizon. 🌅</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── MELODY ─── -->
+<div class="section-wrap">
+  <span class="section-icon">🎵</span>
+  <h2 class="section-title">Melody of You</h2>
+  <p class="section-sub">songs that remind me of you every single time 💕</p>
+  <div class="wavy">~ ~ ~ ~ ~</div>
+
+  <!-- single hidden audio -->
+  <audio id="mainAudio"></audio>
+
+  <!-- big vinyl player -->
+  <div class="player-wrap">
+    <div class="vinyl-big" id="vinylDisk"></div>
+    <div class="now-title" id="nowTitle">Choose a song ♪</div>
+    <div class="now-artist" id="nowArtist">tap any song below</div>
+    <div class="prog-bar" id="progBar">
+      <div class="prog-fill" id="progFill"></div>
+    </div>
+    <div class="prog-times">
+      <span id="tElapsed">0:00</span>
+      <span id="tDuration">0:00</span>
+    </div>
+    <div class="controls">
+      <button class="ctrl" id="btnPrev">⏮</button>
+      <button class="play-pause" id="btnPlay">▶</button>
+      <button class="ctrl" id="btnNext">⏭</button>
+    </div>
+  </div>
+
+  <!-- song list -->
+  <div class="song-list">
+    <div class="song-row" data-idx="0"><span class="song-row-num">1</span><div class="song-row-info"><div class="song-row-name">Sailor Song</div><div class="song-row-artist">Gigi Perez</div></div><span class="song-row-heart">♥</span></div>
+    <div class="song-row" data-idx="1"><span class="song-row-num">2</span><div class="song-row-info"><div class="song-row-name">we fell in love in october</div><div class="song-row-artist">girl in red</div></div><span class="song-row-heart">♥</span></div>
+    <div class="song-row" data-idx="2"><span class="song-row-num">3</span><div class="song-row-info"><div class="song-row-name">I Wanna Be Yours</div><div class="song-row-artist">Sped Up</div></div><span class="song-row-heart">♥</span></div>
+    <div class="song-row" data-idx="3"><span class="song-row-num">4</span><div class="song-row-info"><div class="song-row-name">her</div><div class="song-row-artist">JVKE</div></div><span class="song-row-heart">♥</span></div>
+    <div class="song-row" data-idx="4"><span class="song-row-num">5</span><div class="song-row-info"><div class="song-row-name">Tadow</div><div class="song-row-artist">Sped Up</div></div><span class="song-row-heart">♥</span></div>
+  </div>
+</div>
+
+<!-- ─── TIMELINE ─── -->
+<div class="section-wrap">
+  <span class="section-icon">📖</span>
+  <h2 class="section-title">Our Little Story</h2>
+  <p class="section-sub">moments I never want to forget</p>
+  <div class="wavy">~ ~ ~ ~ ~</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot">🌟</div>
+      <div class="timeline-date">Where it all started</div>
+      <div class="timeline-event">The day we met</div>
+      <div class="timeline-desc">When I saw that "What do you think — do people's personality change overtime or does it stay the same?" — little did I know that I had just found the most perfect girl. ❤️</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🥰</div>
+      <div class="timeline-date">A little after that</div>
+      <div class="timeline-event">When I started falling for you</div>
+      <div class="timeline-desc">"Постите Пораньше" — that one message that changed my whole heart. And after that message, never have I ever slept without thinking about you. ❤️</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">🌈</div>
+      <div class="timeline-date">Together</div>
+      <div class="timeline-event">Every adventure since then</div>
+      <div class="timeline-desc">Every text we send, every laugh we share, every random late-night conversation — I keep them all in my heart, deep within me. ❤️</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">❤️</div>
+      <div class="timeline-date">Right now</div>
+      <div class="timeline-event">Today — still my favourite</div>
+      <div class="timeline-desc">And as you read this line, I want to say that I love you always. No matter what happens, I will be your little sun shining every day — no matter what. ❤️</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CLICK THE HEART ─── -->
+<div id="heart-section">
+  <p style="font-size:1rem; color:var(--text-soft); margin-bottom:1rem;">psst… click the heart 👇</p>
+  <div class="click-heart-wrap">
+    <span class="click-heart" id="clickHeart">❤️</span>
+    <span class="click-label">tap me</span>
+    <div class="click-message" id="clickMsg">I love you so so so much! 💕</div>
+  </div>
+</div>
+
+<!-- ─── PROMISES ─── -->
+<div class="stripe-bg">
+  <div class="section-wrap">
+    <span class="section-icon">🤞</span>
+    <h2 class="section-title">My Promises to You</h2>
+    <p class="section-sub">from my heart, I mean every single one</p>
+    <div class="wavy">♥ ♥ ♥ ♥ ♥</div>
+
+    <ul class="promise-list">
+      <li>I promise to always show up for you — on the good days and the hard ones.</li>
+      <li>I promise to make you laugh every single day, even if the jokes are terrible.</li>
+      <li>I promise to listen — really listen — whenever you need someone to talk to.</li>
+      <li>I promise to keep choosing you, every morning, without hesitation.</li>
+      <li>I promise to love you more tomorrow than I do today. And today I love you a lot.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─── SIGN OFF ─── -->
+<!-- ─── WILL U BE MINE ─── -->
+<div class="wubm-wrap">
+  <p class="wubm-question">Will you be mine?</p>
+  <p class="wubm-always">always · always · always · always</p>
+  <div class="wubm-btns">
+    <button class="wubm-yes" id="btnYes">Yes 💗</button>
+    <button class="wubm-no"  id="btnNo">No</button>
+  </div>
+  <div class="wubm-popup" id="wubmPopup">hehehe, you have no option 😏💕</div>
+</div>
+
+<div class="signoff">
+  <p class="signoff-text">
+    You are my favourite person<br/>
+    in this whole wide world. 🌍
+  </p>
+  <span class="signoff-hearts">💗💗💗</span>
+</div>
+
+<footer>made with 💕 just for you &nbsp;·&nbsp; with all my love</footer>
+
+<script>
+  /* ── Falling hearts canvas ── */
+  const canvas = document.getElementById('heartCanvas');
+  const ctx = canvas.getContext('2d');
+  const EMOJIS = ['❤️','💕','💗','💓','🌸','💖','✨'];
+  let W, H, drops = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function spawnDrop() {
+    return {
+      x:     Math.random() * W,
+      y:     -30,
+      emoji: EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+      size:  Math.random() * 14 + 10,
+      speed: Math.random() * 1.2 + 0.4,
+      drift: (Math.random() - 0.5) * 0.7,
+      alpha: Math.random() * 0.35 + 0.1,
+      rot:   (Math.random() - 0.5) * 0.04,
+      angle: 0,
+    };
+  }
+
+  function initDrops() {
+    resize();
+    drops = Array.from({ length: 30 }, () => {
+      const d = spawnDrop();
+      d.y = Math.random() * H;
+      return d;
+    });
+  }
+
+  function drawDrops() {
+    ctx.clearRect(0, 0, W, H);
+    drops.forEach(d => {
+      d.y     += d.speed;
+      d.x     += d.drift;
+      d.angle += d.rot;
+
+      ctx.save();
+      ctx.globalAlpha = d.alpha;
+      ctx.translate(d.x, d.y);
+      ctx.rotate(d.angle);
+      ctx.font = `${d.size}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(d.emoji, 0, 0);
+      ctx.restore();
+
+      if (d.y > H + 40) Object.assign(d, spawnDrop());
+    });
+    requestAnimationFrame(drawDrops);
+  }
+
+  window.addEventListener('resize', resize);
+  initDrops();
+  drawDrops();
+
+  /* ── Counters ── */
+  function updateCounters() {
+    const now        = new Date();
+    const start      = new Date('2025-11-01T00:00:00');
+    const target     = new Date('2033-03-03T00:00:00');
+    const MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    const together = Math.floor((now - start) / MS_PER_DAY);
+    const until    = Math.max(0, Math.ceil((target - now) / MS_PER_DAY));
+
+    document.getElementById('daysTogether').textContent = together.toLocaleString();
+    document.getElementById('daysUntil').textContent    = until.toLocaleString();
+  }
+  updateCounters();
+  setInterval(updateCounters, 60000); // refresh every minute
+
+  /* ── Click heart easter egg ── */
+  const clickHeart = document.getElementById('clickHeart');
+  const clickMsg   = document.getElementById('clickMsg');
+  const messages   = [
+    "I love you so so so much! 💕",
+    "You're my favourite human ever 🥰",
+    "Every day with you is a gift 🎁",
+    "You make my heart so happy ❤️",
+    "I'm so lucky to have you 🌸",
+    "Seriously, I love you a TON 💗",
+    "You're everything to me 🌈",
+  ];
+  let msgIndex = 0;
+
+  clickHeart.addEventListener('click', () => {
+    clickMsg.textContent = messages[msgIndex % messages.length];
+    msgIndex++;
+    clickMsg.classList.remove('show');
+    void clickMsg.offsetWidth; // reflow to restart animation
+    clickMsg.classList.add('show');
+
+    /* spawn floating hearts from the click */
+    spawnFloatHearts(clickHeart);
+  });
+
+  function spawnFloatHearts(el) {
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top  + rect.height / 2;
+    ['❤️','💕','💗'].forEach((e, i) => {
+      const span = document.createElement('span');
+      span.textContent = e;
+      span.style.cssText = `
+        position:fixed; left:${cx + (i-1)*30}px; top:${cy}px;
+        font-size:1.6rem; pointer-events:none; z-index:9999;
+        animation: floatUp 1s ease forwards;
+      `;
+      document.body.appendChild(span);
+      setTimeout(() => span.remove(), 1100);
+    });
+  }
+
+  /* ── Vinyl music player ── */
+  const tracks = [
+    { src: 'Gigi Perez - Sailor Song (Lyrics).mp3',                    title: 'Sailor Song',                  artist: 'Gigi Perez'  },
+    { src: 'girl in red - we fell in love in october (Lyrics).mp3',    title: 'we fell in love in october',   artist: 'girl in red' },
+    { src: 'I Wanna Be Yours (Sped Up).mp3',                           title: 'I Wanna Be Yours',             artist: 'Sped Up'     },
+    { src: 'JVKE - her (official lyric video).mp3',                    title: 'her',                          artist: 'JVKE'        },
+    { src: 'tadow sped up.mp3',                                        title: 'Tadow',                        artist: 'Sped Up'     },
+  ];
+
+  const audio    = document.getElementById('mainAudio');
+  const vinyl    = document.getElementById('vinylDisk');
+  const nowTitle = document.getElementById('nowTitle');
+  const nowArt   = document.getElementById('nowArtist');
+  const progFill = document.getElementById('progFill');
+  const progBar  = document.getElementById('progBar');
+  const tElapsed = document.getElementById('tElapsed');
+  const tDur     = document.getElementById('tDuration');
+  const btnPlay  = document.getElementById('btnPlay');
+  const btnPrev  = document.getElementById('btnPrev');
+  const btnNext  = document.getElementById('btnNext');
+  const rows     = document.querySelectorAll('.song-row');
+
+  let current = -1;
+
+  function fmt(s) {
+    if (!s || isNaN(s)) return '0:00';
+    return `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+  }
+
+  function loadTrack(idx, autoplay) {
+    current = (idx + tracks.length) % tracks.length;
+    audio.src = tracks[current].src;
+    nowTitle.textContent = tracks[current].title;
+    nowArt.textContent   = tracks[current].artist;
+    rows.forEach((r, i) => r.classList.toggle('active', i === current));
+    progFill.style.width = '0%';
+    tElapsed.textContent = '0:00';
+    tDur.textContent     = '0:00';
+    if (autoplay) audio.play();
+  }
+
+  audio.addEventListener('play',  () => { vinyl.classList.add('spinning');    btnPlay.textContent = '⏸'; });
+  audio.addEventListener('pause', () => { vinyl.classList.remove('spinning'); btnPlay.textContent = '▶'; });
+  audio.addEventListener('ended', () => { loadTrack(current + 1, true); });
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    progFill.style.width = (audio.currentTime / audio.duration * 100) + '%';
+    tElapsed.textContent = fmt(audio.currentTime);
+    tDur.textContent     = fmt(audio.duration);
+  });
+
+  progBar.addEventListener('click', e => {
+    if (!audio.duration) return;
+    audio.currentTime = (e.offsetX / progBar.offsetWidth) * audio.duration;
+  });
+
+  btnPlay.addEventListener('click', () => {
+    if (current === -1) { loadTrack(0, true); return; }
+    audio.paused ? audio.play() : audio.pause();
+  });
+  btnPrev.addEventListener('click', () => loadTrack(current - 1, !audio.paused));
+  btnNext.addEventListener('click', () => loadTrack(current + 1, !audio.paused));
+  rows.forEach((row, i) => row.addEventListener('click', () => loadTrack(i, true)));
+
+  /* ── Will u be mine ── */
+  const btnNo   = document.getElementById('btnNo');
+  const btnYes  = document.getElementById('btnYes');
+  const popup   = document.getElementById('wubmPopup');
+
+  // position No button randomly far from cursor
+  function runAway(e) {
+    const bw = btnNo.offsetWidth;
+    const bh = btnNo.offsetHeight;
+    const cx = e.clientX || 0;
+    const cy = e.clientY || 0;
+
+    // stay in the middle 60% of the screen so it never flies off to edges
+    const zoneX1 = window.innerWidth  * 0.15;
+    const zoneX2 = window.innerWidth  * 0.85 - bw;
+    const zoneY1 = window.innerHeight * 0.2;
+    const zoneY2 = window.innerHeight * 0.8 - bh;
+
+    let newX, newY, attempts = 0;
+    do {
+      newX = zoneX1 + Math.random() * (zoneX2 - zoneX1);
+      newY = zoneY1 + Math.random() * (zoneY2 - zoneY1);
+      attempts++;
+    } while (attempts < 30 && Math.abs(newX - cx) < 200 && Math.abs(newY - cy) < 80);
+
+    btnNo.style.left = newX + 'px';
+    btnNo.style.top  = newY + 'px';
+  }
+
+  function placeNextToYes() {
+    const yesRect = btnYes.getBoundingClientRect();
+    btnNo.style.left = (yesRect.right + 16) + 'px';
+    btnNo.style.top  = yesRect.top + 'px';
+  }
+  setTimeout(placeNextToYes, 150);
+  window.addEventListener('resize', placeNextToYes);
+  window.addEventListener('scroll', placeNextToYes);
+
+  btnNo.addEventListener('mousemove', runAway);
+  btnNo.addEventListener('touchstart', runAway);
+
+  btnYes.addEventListener('click', () => {
+    popup.classList.add('show');
+    btnNo.style.display = 'none';
+    // burst hearts
+    for (let i = 0; i < 12; i++) {
+      const s = document.createElement('span');
+      s.textContent = ['💗','❤️','💕','🌸'][Math.floor(Math.random()*4)];
+      s.style.cssText = `position:fixed;font-size:${1.2+Math.random()*1.4}rem;
+        left:${20+Math.random()*60}vw;top:${20+Math.random()*60}vh;
+        pointer-events:none;z-index:9999;
+        animation:floatUp ${0.8+Math.random()*0.8}s ease forwards;`;
+      document.body.appendChild(s);
+      setTimeout(() => s.remove(), 1600);
+    }
+  });
+
+  /* ── Scroll-reveal timeline ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
